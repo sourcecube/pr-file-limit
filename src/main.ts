@@ -4,7 +4,7 @@ import * as github from '@actions/github';
 async function run() {
   try {
     const token = core.getInput('repo-token', {required: true});
-    const fileLimit = core.getInput('limit', {required: true});
+    const fileLimit = parseInt(core.getInput('limit', {required: true}));
 
     const prNumber = getPrNumber();
     if (!prNumber) {
@@ -17,11 +17,9 @@ async function run() {
     core.debug(`fetching changed files for pr #${prNumber}`);
     const changedFiles: string[] = await getChangedFiles(client, prNumber);
     
-    if(changedFiles > fileLimit) {
+    if(changedFiles.length > fileLimit) {
       core.setFailed(`Too many files. Expected: ${fileLimit}. Got: ${changedFiles}`)
-    } else {
-      core.setSuccess()
-    }
+    } 
 
   } catch (error) {
     core.error(error);
