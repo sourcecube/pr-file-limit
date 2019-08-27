@@ -18,7 +18,7 @@ async function run() {
     const changedFiles: string[] = await getChangedFiles(client, prNumber);
     
     if(changedFiles.length > fileLimit) {
-      core.setFailed(`Too many files. Expected: ${fileLimit}. Got: ${changedFiles}`)
+      core.setFailed(`Too many files. Expected: ${fileLimit}. Got: ${changedFiles.length}`)
     } 
 
   } catch (error) {
